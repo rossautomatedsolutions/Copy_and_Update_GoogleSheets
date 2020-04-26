@@ -1,0 +1,24 @@
+###Updates EXISTING Google Sheets file
+
+import pygsheets
+import pandas as pd
+from datetime import date
+
+#authorization
+gc = pygsheets.authorize(service_file='JSON CREDENTIALS FILE PATH') #JSON CREDENTIALS
+
+path = '#ENTER FILE PATH'
+dt = str(date.today())
+
+#create dataframe
+df = pd.read_csv('#ENTER NAME OF FILE')
+
+#open the google spreadsheet (where '#ENTER NAME OF FILE' is the name of my sheet)
+sh = gc.open('#ENTER NAME OF FILE')
+
+#selectmro the first sheet 
+wks = sh[0]
+
+#update the first sheet with df, starting at cell B2.
+wks.clear(start='A1', end=None, fields="*")
+wks.set_dataframe(df,(1,1),copy_index=False, copy_head=True, fit=True)
